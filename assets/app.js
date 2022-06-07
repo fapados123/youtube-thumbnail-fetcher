@@ -1,16 +1,30 @@
-function fetchThumbnails() {
-    const url = new URL(document.querySelector('#url-input').value);
-    const id = url.searchParams.get('v');
-    const format = document.querySelector('#format-selector').value;
+function getVideoUrl() {
+    return document.querySelector('#url-input').value;
+}
 
-    const prefixes = {
-        jpg: 'vi',
-        webp: 'vi_webp',
-    };
+function getVideoId() {
+    return new URL(getVideoUrl()).searchParams.get('v');
+}
 
-    const prefix = prefixes[format];
+function getThumbnailFormat() {
+    return document.querySelector('#format-selector').value;
+}
 
-    const types = [
+function getPrefix(format) {
+    switch (format) {
+        case 'jpg':
+            return 'vi';
+
+        case 'webp':
+            return 'vi_webp';
+
+        default:
+            return 'vi';
+    }
+}
+
+function getTypes() {
+    return [
         '0',
         '1',
         '2',
@@ -18,28 +32,41 @@ function fetchThumbnails() {
         'hq1',
         'hq2',
         'hq3',
+        'hq720',
+        'hqdefault',
         'mq1',
         'mq2',
         'mq3',
+        'mqdefault',
         'sd1',
         'sd2',
         'sd3',
-        'hq720',
-        'default',
-        'hqdefault',
-        'mqdefault',
         'sddefault',
+        'default',
         'maxresdefault',
     ];
+}
 
-    types.forEach(type => {
-        document.querySelector(`#thumbnail-${type}`).setAttribute('src', `https://i.ytimg.com/${prefix}/${id}/${type}.${format}`);
-    });
+function generateThumbnailUrl(videoId, type, format) {
+    return `https://i.ytimg.com/${getPrefix(format)}/${videoId}/${type}.${format}`;
+}
 
+function displayThumbnail(videoId, type, format) {
+    document.querySelector(`#thumbnail-${type}`).setAttribute('src', generateThumbnailUrl(videoId, type, format));
+}
+
+function showThumbnailContainer() {
     document.querySelector('#thumbnail-container').style.display = 'initial';
 }
 
+function fetchThumbnails() {
+    getTypes().forEach(type => {
+        displayThumbnail(getVideoId(), type, getThumbnailFormat());
+    });
+
+    showThumbnailContainer();
+}
+
 document.querySelector('#fetch-button').addEventListener('click', () => {
-    // TODO: try catch
     fetchThumbnails();
-})
+});
