@@ -1,6 +1,14 @@
 function fetchThumbnails() {
     const url = new URL(document.querySelector('#url-input').value);
     const id = url.searchParams.get('v');
+    const format = document.querySelector('#format-selector').value;
+
+    const prefixes = {
+        jpg: 'vi',
+        webp: 'vi_webp',
+    };
+
+    const prefix = prefixes[format];
 
     const types = [
         '0',
@@ -25,13 +33,13 @@ function fetchThumbnails() {
     ];
 
     types.forEach(type => {
-        document.querySelector(`#thumbnail-${type}`).setAttribute('src', `https://i.ytimg.com/vi/${id}/${type}.jpg`);
+        document.querySelector(`#thumbnail-${type}`).setAttribute('src', `https://i.ytimg.com/${prefix}/${id}/${type}.${format}`);
     });
 
     document.querySelector('#thumbnail-container').style.display = 'initial';
 }
 
-document.querySelector('#url-fetch-button').addEventListener('click', () => {
+document.querySelector('#fetch-button').addEventListener('click', () => {
     // TODO: try catch
     fetchThumbnails();
 })
