@@ -1,5 +1,4 @@
-document.querySelector('#url-fetch-button').addEventListener('click', () => {
-    // TODO: try catch
+function fetchThumbnails() {
     const url = new URL(document.querySelector('#url-input').value);
     const id = url.searchParams.get('v');
 
@@ -18,4 +17,9 @@ document.querySelector('#url-fetch-button').addEventListener('click', () => {
     types.forEach(type => {
         document.querySelector(`#thumbnail-${type}`).setAttribute('src', `https://img.youtube.com/vi/${id}/${type}.jpg`);
     });
+}
+
+document.querySelector('#url-fetch-button').addEventListener('click', () => {
+    // TODO: try catch
+    fetchThumbnails();
 })
