@@ -1,5 +1,6 @@
 const types = {
     Max: ['maxresdefault'],
+    Shorts: ['oardefault'],
     Default: ['default'],
     Misc: ['0', '1', '2', '3'],
     HQ: ['hq1', 'hq2', 'hq3', 'hq720', 'hqdefault'],
@@ -12,13 +13,21 @@ const prefixes = {
     webp: 'vi_webp',
 };
 
+function getVideoId(videoUrl) {
+    if (videoUrl.pathname.startsWith('/shorts')) {
+        return videoUrl.pathname.split('/')[2];
+    }
+
+    return videoUrl.searchParams.get('v');
+}
+
 function generateThumbnailUrl(videoId, type, format) {
     return `https://i.ytimg.com/${prefixes[format]}/${videoId}/${type}.${format}`;
 }
 
 document.querySelector('#fetch-btn').addEventListener('click', () => {
     const videoUrl = new URL(document.querySelector('#video-url-input').value);
-    const videoId = videoUrl.searchParams.get('v');
+    const videoId = getVideoId(videoUrl);
     const format = document.querySelector('#format-selector').value;
 
     Object.values(types).flat().forEach(type => {
