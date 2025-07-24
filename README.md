@@ -1,6 +1,6 @@
 # YouTube thumbnail fetcher
 
-A simple yet powerful thumbnail fetcher for YouTube videos.
+A simple and fast thumbnail fetcher for YouTube videos.
 
 ## How to use
 
